@@ -1,21 +1,22 @@
 package pl.rownicki.roombooking.model;
 
-import javax.persistence.*;
+import com.sun.istack.NotNull;
+import org.springframework.lang.NonNull;
 import javax.validation.constraints.NotBlank;
+import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
 @Entity
 public class Room {
-
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    @NotBlank(message = "Name cannot be blank.")
+    @NotBlank(message = "Name cannot be blank")
     private String name;
 
-    @NotBlank(message = "location cannot be blanl")
+    @NotBlank(message = "Location cannot be blank")
     private String location;
 
 
