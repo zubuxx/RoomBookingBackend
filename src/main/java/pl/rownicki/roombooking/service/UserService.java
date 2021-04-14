@@ -4,9 +4,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import pl.rownicki.roombooking.data.UserRepository;
 import pl.rownicki.roombooking.exception.UserNotFoundException;
+import pl.rownicki.roombooking.model.AngularUser;
 import pl.rownicki.roombooking.model.User;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class UserService {
@@ -14,21 +16,25 @@ public class UserService {
     @Autowired
     private UserRepository userRepository;
 
-    public List<User> getAllUsers() {
-        return userRepository.findAll();
+    public List<AngularUser> getAllUsers() {
+        return userRepository.findAll().stream()
+                .map(user -> new AngularUser(user)).collect(Collectors.toList());
     }
 
-    public User findUserById(Long id) {
-        return userRepository.findById(id)
+    public AngularUser findUserById(Long id) {
+        User user = userRepository.findById(id)
                 .orElseThrow(() -> new UserNotFoundException("User withj that ID does not exist."));
+        return new AngularUser(user);
     }
 
-    public User updateUser(User user) {
-        return userRepository.save(user);
+    public AngularUser updateUser(User user) {
+        User updatedUser = userRepository.save(user);
+        return new AngularUser(updatedUser);
     }
 
-    public User addUser(User user) {
-        return userRepository.save(user);
+    public AngularUser addUser(User user) {
+        User addedUser = userRepository.save(user);
+        return new AngularUser(addedUser);
     }
 
 }

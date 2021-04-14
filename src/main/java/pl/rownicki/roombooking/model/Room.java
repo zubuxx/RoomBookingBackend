@@ -1,7 +1,6 @@
 package pl.rownicki.roombooking.model;
 
-import com.sun.istack.NotNull;
-import org.springframework.lang.NonNull;
+
 import javax.validation.constraints.NotBlank;
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -65,5 +64,13 @@ public class Room {
 
     public void setCapacities(List<LayoutCapacity> capacities) {
         this.capacities = capacities;
+    }
+
+    public void setCapacity(LayoutCapacity capacity) {
+        for (LayoutCapacity lc: capacities) {
+            if (lc.getLayout() == capacity.getLayout()) {
+                lc.setCapacity(capacity.getCapacity());
+            }
+        }
     }
 }

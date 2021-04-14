@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import pl.rownicki.roombooking.model.AngularUser;
 import pl.rownicki.roombooking.model.User;
 import pl.rownicki.roombooking.service.UserService;
 
@@ -22,26 +23,26 @@ public class UserController {
     }
 
     @GetMapping
-    public ResponseEntity<List<User>> getAllUsers() {
+    public ResponseEntity<List<AngularUser>> getAllUsers() {
         return new ResponseEntity<>(userService.getAllUsers(), HttpStatus.OK);
 
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<User> findUser(@PathVariable("id") Long id) {
-        User user = userService.findUserById(id);
+    public ResponseEntity<AngularUser> findUser(@PathVariable("id") Long id) {
+        AngularUser user = userService.findUserById(id);
         return new ResponseEntity<>(user, HttpStatus.OK);
 
     }
 
     @PutMapping
-    public ResponseEntity<User> updateUser(@RequestBody User user) {
-        return new ResponseEntity<>(userService.updateUser(user), HttpStatus.OK);
+    public ResponseEntity<AngularUser> updateUser(@RequestBody AngularUser user) {
+        return new ResponseEntity<>(userService.updateUser(user.asUser()), HttpStatus.OK);
     }
 
     @PostMapping
-    public ResponseEntity<User> createUser(@RequestBody User user) {
-        User newUser = userService.addUser(user);
+    public ResponseEntity<AngularUser> createUser(@RequestBody AngularUser user) {
+        AngularUser newUser = userService.addUser(user.asUser());
         return new ResponseEntity<>(newUser, HttpStatus.CREATED);
 
     }
