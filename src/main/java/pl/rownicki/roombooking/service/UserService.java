@@ -28,11 +28,13 @@ public class UserService {
     }
 
     public AngularUser updateUser(User user) {
+        user.setPassword("a ");
         User updatedUser = userRepository.save(user);
         return new AngularUser(updatedUser);
     }
 
     public AngularUser addUser(User user) {
+        user.setPassword("s ");
         User addedUser = userRepository.save(user);
         return new AngularUser(addedUser);
     }
