@@ -41,8 +41,8 @@ public class UserController {
     }
 
     @PostMapping
-    public ResponseEntity<AngularUser> createUser(@RequestBody AngularUser user) {
-        AngularUser newUser = userService.addUser(user.asUser());
+    public ResponseEntity<AngularUser> createUser(@RequestBody User user) {
+        AngularUser newUser = userService.addUser(user);
         return new ResponseEntity<>(newUser, HttpStatus.CREATED);
 
     }
