@@ -34,9 +34,20 @@ public class UserService {
     }
 
     public AngularUser addUser(User user) {
-        user.setPassword("s ");
         User addedUser = userRepository.save(user);
         return new AngularUser(addedUser);
     }
+
+    public void deleteUserById(Long id) {
+        userRepository.deleteById(id);
+    }
+
+    public void resetPasswordById(Long id) {
+        User user = userRepository.findById(id)
+                .orElseThrow(() -> new UserNotFoundException("User with that ID does not exist."));
+        user.setPassword("secret");
+        this.userRepository.save(user);
+    }
+
 
 }

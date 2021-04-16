@@ -47,6 +47,16 @@ public class UserController {
 
     }
 
+    @DeleteMapping("/{id}")
+    public void deleteUser(@PathVariable("id") Long id) {
+        this.userService.deleteUserById(id);
+    }
+
+    @GetMapping("/resetPassword/{id}")
+    public void resetPassword(@PathVariable("id") Long id) {
+        userService.resetPasswordById(id);
+    }
+
 
 
 }
