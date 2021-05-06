@@ -11,6 +11,9 @@ import pl.rownicki.roombooking.model.AngularUser;
 import pl.rownicki.roombooking.model.User;
 import pl.rownicki.roombooking.service.UserService;
 
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
@@ -64,15 +67,19 @@ public class UserController {
 
     @GetMapping("/currentUserRole")
     public Map<String, String> getCurrentUserRole(){
-        Collection<GrantedAuthority> roles = (Collection<GrantedAuthority>) SecurityContextHolder.getContext().getAuthentication().getAuthorities();
-        String role = "";
-        if (roles.size() > 0) {
-            GrantedAuthority ga = roles.iterator().next();
-            role = ga.getAuthority().substring(5);
-        }
-        Map<String,String> results = new HashMap<>();
-        results.put("role", role);
-        return results;
+        return userService.getCurrentUserRole();
+    }
+
+    @GetMapping("/logout")
+    public String logout(HttpServletResponse response) {
+        Cookie cookie = new Cookie("token", null);
+        cookie.setPath("/api/v1");
+        cookie.setMaxAge(0);
+        cookie.setHttpOnly(true);
+//      TODO: When in production must do cookie.setSecure(true);
+        response.addCookie(cookie);
+        SecurityContextHolder.getContext().setAuthentication(null);
+        return "";
     }
 
 

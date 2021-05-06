@@ -1,13 +1,18 @@
 package pl.rownicki.roombooking.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import pl.rownicki.roombooking.data.UserRepository;
 import pl.rownicki.roombooking.exception.UserNotFoundException;
 import pl.rownicki.roombooking.model.AngularUser;
 import pl.rownicki.roombooking.model.User;
 
+import java.util.Collection;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 @Service
@@ -47,6 +52,18 @@ public class UserService {
                 .orElseThrow(() -> new UserNotFoundException("User with that ID does not exist."));
         user.setPassword("secret");
         this.userRepository.save(user);
+    }
+
+    public Map<String, String> getCurrentUserRole() {
+        Collection<GrantedAuthority> roles = (Collection<GrantedAuthority>) SecurityContextHolder.getContext().getAuthentication().getAuthorities();
+        String role = "";
+        if (roles.size() > 0) {
+            GrantedAuthority ga = roles.iterator().next();
+            role = ga.getAuthority().substring(5);
+        }
+        Map<String,String> results = new HashMap<>();
+        results.put("role", role);
+        return results;
     }
 
 
