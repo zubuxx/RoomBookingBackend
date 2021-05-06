@@ -40,6 +40,8 @@ public class JWTFilter extends BasicAuthenticationFilter {
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain) throws IOException, ServletException {
 
         Cookie[] cookies = request.getCookies();
+        response.addHeader("Access-Control-Allow-Origin", "http://localhost:4200");
+        response.addHeader("Access-Control-Allow-Credentials", "true");
         if (cookies == null || cookies.length == 0) {
             chain.doFilter(request, response);
             return;
