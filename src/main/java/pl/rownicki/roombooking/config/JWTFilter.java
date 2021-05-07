@@ -40,8 +40,13 @@ public class JWTFilter extends BasicAuthenticationFilter {
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain) throws IOException, ServletException {
 
         Cookie[] cookies = request.getCookies();
+//        response.addHeader("Access-Control-Allow-Origin", "http://localhost:4200");
+//        response.addHeader("Access-Control-Allow-Credentials", "true");
+//        response.addHeader("Access-Control-Allow-Headers", "Access-Control-Allow-Headers, Origin,Accept, X-Requested-With, Content-Type, Access-Control-Request-Method, Access-Control-Request-Headers");
         response.addHeader("Access-Control-Allow-Origin", "http://localhost:4200");
         response.addHeader("Access-Control-Allow-Credentials", "true");
+        response.addHeader("Access-Control-Allow-Methods", "GET,HEAD,OPTIONS,POST,PUT");
+        response.addHeader("Access-Control-Allow-Headers", "Access-Control-Allow-Headers, Origin,Accept, X-Requested-With, Content-Type, Access-Control-Request-Method, Access-Control-Request-Headers");
         if (cookies == null || cookies.length == 0) {
             chain.doFilter(request, response);
             return;
